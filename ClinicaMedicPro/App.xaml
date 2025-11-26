@@ -1,14 +1,26 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ClinicaMedicPro"
              x:Class="ClinicaMedicPro.App">
+
     <Application.Resources>
         <ResourceDictionary>
+
+            <!-- Tus estilos normales (colores y estilos) -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- FontAwesome 6 Free Solid (para usar los iconos) -->
+            <OnPlatform x:Key="FA" x:TypeArguments="x:String">
+                <On Platform="Android" Value="FA-Solid-900.otf#Font Awesome 6 Free Solid" />
+                <On Platform="iOS" Value="Font Awesome 6 Free-Solid-900" />
+                <On Platform="WinUI" Value="Assets/Fonts/FA-Solid-900.otf#Font Awesome 6 Free" />
+            </OnPlatform>
+
         </ResourceDictionary>
     </Application.Resources>
+
 </Application>

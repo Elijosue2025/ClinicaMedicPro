@@ -2,11 +2,160 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.Vistas.MedicoPage"
-             Title="MedicoPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Background="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="22" Padding="20">
+
+            <!-- Logo + Nombre Centro Médico -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Margin="0,10">
+                <Image Source="logo_clinica.png" HeightRequest="70" WidthRequest="70"/>
+                <Label Text="CENTRO MÉDICO"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="#1E40AF"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Header Doctor -->
+            <Border BackgroundColor="White"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1"
+                    Padding="18">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.08" Radius="18" Offset="0,8"/>
+                </Border.Shadow>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="doctor_avatar.png" HeightRequest="65" WidthRequest="65">
+                        <Image.Clip>
+                            <EllipseGeometry Center="32.5,32.5" RadiusX="32.5" RadiusY="32.5"/>
+                        </Image.Clip>
+                    </Image>
+
+                    <VerticalStackLayout Grid.Column="1" Margin="15,0" VerticalOptions="Center">
+                        <Label Text="{Binding NombreMedico, StringFormat='Dr. {0}'}" 
+                               FontSize="20" FontAttributes="Bold" TextColor="#1E293B"/>
+                        <Label Text="Médico Especialista" FontSize="14" TextColor="#0EA5E9"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 4 MÓDULOS PRINCIPALES (como en tu imagen) -->
+            <Grid ColumnDefinitions="1*,1*" RowSpacing="18" ColumnSpacing="18">
+
+                <!-- Agendar citas médicas -->
+                <Border BackgroundColor="#3B82F6" Grid.Column="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IrAgendarCita_Clicked"/>
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Padding="25" HorizontalOptions="Center" Spacing="10">
+                        <Image Source="calendar_add.png" HeightRequest="70"/>
+                        <Label Text="Agendar citas médicas"
+                               TextColor="White" FontAttributes="Bold"
+                               FontSize="15" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Profesionales -->
+                <Border BackgroundColor="#10B981" Grid.Column="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IrProfesionales_Clicked"/>
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Padding="25" HorizontalOptions="Center" Spacing="10">
+                        <Image Source="stethoscope.png" HeightRequest="70"/>
+                        <Label Text="Profesionales"
+                               TextColor="White" FontAttributes="Bold"
+                               FontSize="15" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Pacientes -->
+                <Border BackgroundColor="#F59E0B" Grid.Row="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IrMisPacientes_Clicked"/>
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Padding="25" HorizontalOptions="Center" Spacing="10">
+                        <Image Source="patients.png" HeightRequest="70"/>
+                        <Label Text="Pacientes"
+                               TextColor="White" FontAttributes="Bold"
+                               FontSize="15" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Encuéntranos -->
+                <Border BackgroundColor="#8B5CF6" Grid.Row="1" Grid.Column="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IrUbicacion_Clicked"/>
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Padding="25" HorizontalOptions="Center" Spacing="10">
+                        <Image Source="location.png" HeightRequest="70"/>
+                        <Label Text="Encuéntranos"
+                               TextColor="White" FontAttributes="Bold"
+                               FontSize="15" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Chat en tiempo real -->
+            <Border BackgroundColor="#EC4899">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IrChat_Clicked"/>
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Padding="20">
+                    <Image Source="chat.png" HeightRequest="50"/>
+                    <Label Text="Chat en tiempo real"
+                           TextColor="White" FontSize="18" FontAttributes="Bold"
+                           VerticalOptions="Center" Margin="15,0"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Banner de citas atendidas -->
+            <Border BackgroundColor="#1E40AF">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <HorizontalStackLayout Padding="20">
+                    <Label Text="+48 CITAS" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Atendidas este mes" FontSize="14" TextColor="#BFDBFE" VerticalOptions="Center" Margin="10,0"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Cerrar sesión -->
+            <Button Text="Cerrar Sesión"
+                    BackgroundColor="#DC2626"
+                    TextColor="White"
+                    CornerRadius="20"
+                    HeightRequest="55"
+                    Clicked="CerrarSesion_Clicked"/>
+
+            <Label Text="© 2025 Centro Médico • Portal Médico"
+                   FontSize="11" TextColor="#64748B"
+                   HorizontalOptions="Center" Margin="0,10"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
