@@ -70,9 +70,9 @@
                 </Grid>
             </Border>
 
-            <Border BackgroundColor="#BFDBFE" StrokeShape="RoundRectangle 20" Padding="22">
+            <Border BackgroundColor="#BFDBFE" StrokeShape="RoundRectangle 20" Padding="22" >
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="IrMedicos_Clicked"/>
+                    <TapGestureRecognizer Tapped="IrGestionMedicos_Clicked"/>
                 </Border.GestureRecognizers>
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <Label Text="D" FontSize="40" TextColor="#1D4ED8"/>

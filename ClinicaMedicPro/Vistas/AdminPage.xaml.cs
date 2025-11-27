@@ -9,7 +9,10 @@ public partial class AdminPage : ContentPage
 
     private async void IrUsuarios_Clicked(object sender, EventArgs e)
         => await DisplayAlert("Usuarios", "Aquí irá la lista de usuarios", "OK");
-
+    private async void IrGestionMedicos_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//GestionMedicosPage");
+    }
     private async void IrMedicos_Clicked(object sender, EventArgs e)
         => await DisplayAlert("Médicos", "Gestión de médicos", "OK");
 
