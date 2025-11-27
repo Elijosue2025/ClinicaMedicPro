@@ -1,3 +1,4 @@
+ï»¿
 using ClinicaMedicPro.Modelos;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ namespace ClinicaMedicPro.VistasGestion;
 public partial class GestionMedicosPage : ContentPage
 {
     private readonly HttpClient client = new HttpClient();
-    private const string UrlApi = "http://172.0.0.1/wsCitas/api.php?resource=medico"; // CAMBIA
+    private const string UrlApi = "http://127.0.0.1/wsCitas/api.php?resource=medico";
     public ObservableCollection<Medico> Medicos { get; set; } = new();
     public GestionMedicosPage()
     {
@@ -33,7 +34,6 @@ public partial class GestionMedicosPage : ContentPage
 
     private async void OnNuevoMedicoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new EditarMedicoPage());
     }
 
     private async void OnEditarClicked(object sender, EventArgs e)
@@ -47,13 +47,13 @@ public partial class GestionMedicosPage : ContentPage
     {
         var boton = (Button)sender;
         var medico = (Medico)boton.CommandParameter;
-        var respuesta = await DisplayAlert("Confirmar", $"¿Eliminar Dr. {medico.us_nombre}?", "Sí", "No");
+        var respuesta = await DisplayAlert("Confirmar", $"Â¿Eliminar Dr. {medico.us_nombre}?", "SÃ­", "No");
         if (respuesta)
         {
             var res = await client.DeleteAsync($"{UrlApi}&id={medico.pk_medico}");
             if (res.IsSuccessStatusCode)
             {
-                await DisplayAlert("Éxito", "Médico eliminado", "OK");
+                await DisplayAlert("Ã‰xito", "MÃ©dico eliminado", "OK");
                 CargarMedicos();
             }
             else await DisplayAlert("Error", "No se pudo eliminar", "OK");
@@ -64,7 +64,7 @@ public partial class GestionMedicosPage : ContentPage
     {
         var boton = (Button)sender;
         var medico = (Medico)boton.CommandParameter;
-        await DisplayAlert("Horarios", $"Próximamente para Dr. {medico.us_nombre}", "OK");
+        await DisplayAlert("Horarios", $"PrÃ³ximamente para Dr. {medico.us_nombre}", "OK");
     }
 
     protected override void OnAppearing()

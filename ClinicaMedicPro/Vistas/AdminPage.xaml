@@ -2,125 +2,190 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.Vistas.AdminPage"
-             BackgroundColor="#F8FAFC"
-             Title="Panel Administrador">
+             BackgroundColor="#F1F5F9"
+             Title="Dashboard">
 
-    
     <ScrollView>
-        <VerticalStackLayout Padding="25" Spacing="25">
+        <VerticalStackLayout Spacing="24" Padding="24">
 
-            <!-- Header Admin -->
-            <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="20">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="24"/>
-                </Border.StrokeShape>
+            <!-- HEADER -->
+            <Border Stroke="#E2E8F0" StrokeThickness="1" Padding="20" StrokeShape="RoundRectangle 28">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#F8FAFC" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
                 <Border.Shadow>
-                    <Shadow Brush="Black" Opacity="0.08" Radius="20" Offset="0,8"/>
+                    <Shadow Brush="Black" Opacity="0.1" Radius="20" Offset="0,10"/>
                 </Border.Shadow>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Border BackgroundColor="#DC2626" WidthRequest="80" HeightRequest="80" StrokeShape="RoundRectangle 40">
+                        <Label Text="CM" FontSize="28" TextColor="White" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
 
-                    <Label Text="A" FontSize="56" FontAttributes="Bold" TextColor="#DC2626"/>
-
-                    <VerticalStackLayout Grid.Column="1" Margin="20,0" VerticalOptions="Center">
-                        <Label Text="Bienvenido, Administrador" FontSize="16" TextColor="#64748B"/>
-                        <Label Text="Carlos Mora" FontSize="28" FontAttributes="Bold" TextColor="#1E293B"/>
-                        <Label Text="Panel de Control Total" FontSize="18" FontAttributes="Bold" TextColor="#DC2626"/>
+                    <VerticalStackLayout Grid.Column="1" Spacing="4" Margin="20,0">
+                        <Label x:Name="LabelBienvenida" Text="Bienvenido de vuelta," FontSize="16" TextColor="#64748B"/>
+                        <Label x:Name="LabelNombreUsuario" Text="Cargando..." FontSize="28" FontAttributes="Bold" TextColor="#1E293B"/>
+                        <Label x:Name="LabelRol" Text="Administrador" FontSize="18" FontAttributes="Bold" TextColor="#DC2626"/>
                     </VerticalStackLayout>
+
+                    <Image Source="bell.png" HeightRequest="32" Grid.Column="2">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnNotificacionesTapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
             </Border>
 
-            <!-- Estadísticas -->
-            <HorizontalStackLayout Spacing="16">
-                <Border BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 18" Padding="20">
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <Label Text="48" FontSize="40" FontAttributes="Bold" TextColor="#991B1B"/>
-                        <Label Text="Pacientes" FontSize="14" TextColor="#7F1D1D"/>
-                    </VerticalStackLayout>
+            <!-- ESTADÍSTICAS -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="16" ColumnSpacing="16">
+
+                <!-- Pacientes -->
+                <Border Grid.Column="0" Grid.Row="0" Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FEE2E2" Offset="0"/>
+                            <GradientStop Color="#FCA5A5" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPacientesTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Pacientes Totales" FontSize="14" TextColor="#7F1D1D"/>
+                        <Label Text="1,248" FontSize="36" FontAttributes="Bold" TextColor="#991B1B" VerticalOptions="Center"/>
+                    </Grid>
                 </Border>
 
-                <Border BackgroundColor="#DBEAFE" StrokeShape="RoundRectangle 18" Padding="20">
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <Label Text="12" FontSize="40" FontAttributes="Bold" TextColor="#1D4ED8"/>
-                        <Label Text="Médicos" FontSize="14" TextColor="#1E40AF"/>
-                    </VerticalStackLayout>
+                <!-- Médicos -->
+                <Border Grid.Column="1" Grid.Row="0" BackgroundColor="#DBEAFE" Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMedicosTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Médicos Activos" FontSize="14" TextColor="#1E40AF"/>
+                        <Label Text="48" FontSize="36" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center"/>
+                    </Grid>
                 </Border>
 
-                <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 18" Padding="20">
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <Label Text="156" FontSize="40" FontAttributes="Bold" TextColor="#166534"/>
-                        <Label Text="Citas Hoy" FontSize="14" TextColor="#14532D"/>
-                    </VerticalStackLayout>
+                <!-- Citas Hoy -->
+                <Border Grid.Column="0" Grid.Row="1" BackgroundColor="#DCFCE7" Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCitasHoyTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Citas de Hoy" FontSize="14" TextColor="#14532D"/>
+                        <Label Text="156" FontSize="36" FontAttributes="Bold" TextColor="#166534" VerticalOptions="Center"/>
+                    </Grid>
                 </Border>
-            </HorizontalStackLayout>
 
-            <!-- MENÚS CON TAP CORRECTO (SIN Tapped) -->
-            <Border BackgroundColor="#FECACA" StrokeShape="RoundRectangle 20" Padding="22">
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="IrUsuarios_Clicked"/>
-                </Border.GestureRecognizers>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Label Text="U" FontSize="40" TextColor="#991B1B"/>
-                    <Label Grid.Column="1" Text="Gestionar Usuarios" FontSize="20" FontAttributes="Bold" 
-                           TextColor="#7F1D1D" VerticalOptions="Center" Margin="20,0"/>
-                    <Label Grid.Column="2" Text=">" FontSize="36" TextColor="#991B1B"/>
-                </Grid>
-            </Border>
+                <!-- Ingresos -->
+                <Border Grid.Column="1" Grid.Row="1" Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FEF3C7" Offset="0"/>
+                            <GradientStop Color="#FDE68A" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnIngresosTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Ingresos Mensuales" FontSize="14" TextColor="#92400E"/>
+                        <Label Text="$48,520" FontSize="32" FontAttributes="Bold" TextColor="#D97706" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
 
-            <Border BackgroundColor="#BFDBFE" StrokeShape="RoundRectangle 20" Padding="22" >
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="IrGestionMedicos_Clicked"/>
-                </Border.GestureRecognizers>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Label Text="D" FontSize="40" TextColor="#1D4ED8"/>
-                    <Label Grid.Column="1" Text="Gestionar Médicos" FontSize="20" FontAttributes="Bold" 
-                           TextColor="#1E40AF" VerticalOptions="Center" Margin="20,0"/>
-                    <Label Grid.Column="2" Text=">" FontSize="36" TextColor="#1D4ED8"/>
-                </Grid>
-            </Border>
+            <!-- MENÚ PRINCIPAL -->
+            <VerticalStackLayout Spacing="16" Margin="0,20,0,0">
+                <Label Text="Gestión Principal" FontSize="20" FontAttributes="Bold" TextColor="#1E293B"/>
 
-            <Border BackgroundColor="#BBF7D0" StrokeShape="RoundRectangle 20" Padding="22">
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="IrCitas_Clicked"/>
-                </Border.GestureRecognizers>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Label Text="C" FontSize="40" TextColor="#166534"/>
-                    <Label Grid.Column="1" Text="Gestionar Citas" FontSize="20" FontAttributes="Bold" 
-                           TextColor="#14532D" VerticalOptions="Center" Margin="20,0"/>
-                    <Label Grid.Column="2" Text=">" FontSize="36" TextColor="#166534"/>
-                </Grid>
-            </Border>
+                <!-- Usuarios -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGestionUsuariosTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#FECACA" CornerRadius="16" Padding="14" HasShadow="False">
+                            <Label Text="Users" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Gestionar Usuarios" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Crear, editar o eliminar cuentas" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
 
-            <Border BackgroundColor="#E5E7EB" StrokeShape="RoundRectangle 20" Padding="22">
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="IrReportes_Clicked"/>
-                </Border.GestureRecognizers>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Label Text="G" FontSize="40" TextColor="#4B5563"/>
-                    <Label Grid.Column="1" Text="Reportes y Estadísticas" FontSize="20" FontAttributes="Bold" 
-                           TextColor="#374151" VerticalOptions="Center" Margin="20,0"/>
-                    <Label Grid.Column="2" Text=">" FontSize="36" TextColor="#4B5563"/>
-                </Grid>
-            </Border>
+                <!-- Médicos -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGestionMedicosTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#BFDBFE" CornerRadius="16" Padding="14" HasShadow="False">
+                            <Label Text="Doctor" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Gestión de Médicos" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Especialidades y horarios" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+
+                <!-- Citas -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCitasTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#BBF7D0" CornerRadius="16" Padding="14" HasShadow="False">
+                            <Label Text="Calendar" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Calendario de Citas" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Ver y administrar turnos" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+
+                <!-- Reportes -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnReportesTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#E5E7EB" CornerRadius="16" Padding="14" HasShadow="False">
+                            <Label Text="Chart" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Reportes y Estadísticas" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Análisis mensual y anual" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
 
             <!-- Cerrar Sesión -->
             <Button Text="Cerrar Sesión"
                     BackgroundColor="#DC2626"
                     TextColor="White"
-                    CornerRadius="20"
-                    HeightRequest="60"
+                    CornerRadius="16"
+                    HeightRequest="56"
                     FontSize="18"
                     FontAttributes="Bold"
-                    Clicked="CerrarSesion_Clicked"/>
+                    Clicked="OnCerrarSesionClicked"
+                    Margin="0,30,0,10"/>
 
-            <Label Text="© 2025 Clínica MedicPro • Panel Administrativo"
-                   FontSize="12" TextColor="#94A3B8"
-                   HorizontalOptions="Center" Margin="0,20"/>
-
+            <Label Text="© 2025 Clínica MedicPro • Todos los derechos reservados"
+                   FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

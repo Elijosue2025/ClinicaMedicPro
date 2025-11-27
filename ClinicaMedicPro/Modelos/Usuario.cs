@@ -1,29 +1,22 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClinicaMedicPro.Modelos
 {
     public class Usuario
     {
-        public int id { get; set; }
+        [JsonProperty("pk_usuario")]
+        public int id { get; set; }               // ← ahora sí recibe el ID
 
         [JsonProperty("us_nombre")]
-        public string nombre { get; set; }
+        public string nombre { get; set; } = "";
 
-        [JsonProperty("us_correo")]
-        public string usuario { get; set; }  // o correo, como prefieras
+        [JsonProperty("us_tipo")]
+        public string rol { get; set; } = "";
 
-        public string clave { get; set; }
+        [JsonProperty("especialidad")]
+        public string especialidad { get; set; } = "General";
 
-        [JsonProperty("us_tipo")]           // ← ESTO ES LO IMPORTANTE
-        public string rol { get; set; }     // ← ahora sí se llena con "admin", "paciente", etc.
-
-        // los demás campos si los usas
-        public string us_ubicacion { get; set; }
-        public string us_creado { get; set; }
+        // opcional: correo si lo necesitas
+        // [JsonProperty("us_correo")] public string correo { get; set; }
     }
 }

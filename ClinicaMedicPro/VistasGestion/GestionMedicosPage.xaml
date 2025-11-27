@@ -2,16 +2,25 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.VistasGestion.GestionMedicosPage"
-             Background="#F8FAFC">
+             BackgroundColor="#F8FAFC"
+             Title="Médicos">
+
+    <!-- Añade esto para que funcione FontAwesome -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="FA" x:TypeArguments="x:String">
+                <On Platform="Android" Value="fa-solid-900.ttf#Font Awesome 6 Free" />
+                <On Platform="iOS" Value="Font Awesome 6 Free" />
+                <On Platform="WinUI" Value="Assets/Fonts/fa-solid-900.ttf#Font Awesome 6 Free" />
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="25" Spacing="25">
 
             <!-- Header -->
-            <Border BackgroundColor="White"
-                    Stroke="#E2E8F0"
-                    StrokeThickness="1"
-                    Padding="20">
+            <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="20">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20"/>
                 </Border.StrokeShape>
@@ -19,28 +28,27 @@
                     <Shadow Brush="Black" Opacity="0.08" Radius="20" Offset="0,8"/>
                 </Border.Shadow>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
+                <Grid ColumnDefinitions="Auto,*,Auto">
                     <Label Text="&#xf0f1;" FontFamily="{StaticResource FA}" FontSize="50" TextColor="#0EA5E9"/>
                     <VerticalStackLayout Grid.Column="1" Margin="15,0" VerticalOptions="Center">
                         <Label Text="Gestión de Médicos" FontSize="24" FontAttributes="Bold" TextColor="#1E293B"/>
                         <Label Text="Administre médicos y horarios" FontSize="14" TextColor="#64748B"/>
                     </VerticalStackLayout>
-
-                    <Button Text="&#xf067;" FontFamily="{StaticResource FA}"
-                            BackgroundColor="#10B981" TextColor="White"
-                            CornerRadius="16" FontSize="20" WidthRequest="50" HeightRequest="50"
-                            Grid.Column="2" Clicked="OnNuevoMedicoClicked"/>
+                    <Button Text="&#xf067;" 
+                            FontFamily="{StaticResource FA}"
+                            FontSize="20"
+                            BackgroundColor="#10B981" 
+                            TextColor="White"
+                            CornerRadius="16" 
+                            WidthRequest="50" 
+                            HeightRequest="50"
+                            Grid.Column="2" 
+                            Clicked="OnNuevoMedicoClicked"/>
                 </Grid>
             </Border>
 
             <!-- Lista de Médicos -->
-            <CollectionView ItemsSource="{Binding Medicos}" HeightRequest="600">
+            <CollectionView ItemsSource="{Binding Medicos}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="White" Margin="0,10" Padding="15">
@@ -51,43 +59,63 @@
                                 <Shadow Brush="Black" Opacity="0.05" Radius="12" Offset="0,4"/>
                             </Border.Shadow>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Border BackgroundColor="#0EA5E9" HeightRequest="50" WidthRequest="50">
-                                    <Label Text="{Binding Iniciales}" TextColor="White" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                    <Border.StrokeShape>
-                                        <Ellipse/>
-                                    </Border.StrokeShape>
+                            <Grid ColumnDefinitions="60,*,Auto">
+                                <!-- Avatar con iniciales -->
+                                <Border BackgroundColor="#0EA5E9" 
+                                        WidthRequest="50" HeightRequest="50"
+                                        StrokeShape="Ellipse">
+                                    <Label Text="{Binding Iniciales}" 
+                                           TextColor="White" 
+                                           FontAttributes="Bold" 
+                                           FontSize="18"
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"/>
                                 </Border>
 
+                                <!-- Información -->
                                 <VerticalStackLayout Grid.Column="1" Margin="15,0">
                                     <Label Text="{Binding us_nombre}" FontAttributes="Bold" FontSize="18"/>
                                     <Label Text="{Binding me_especialidad}" TextColor="#0EA5E9" FontSize="14"/>
                                     <Label Text="{Binding us_correo}" FontSize="12" TextColor="#64748B"/>
                                 </VerticalStackLayout>
 
-                                <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="10">
-                                    <Button Text="&#xf073;" FontFamily="{StaticResource FA}"
-                                            BackgroundColor="#8B5CF6" TextColor="White" CornerRadius="12" FontSize="16" WidthRequest="50"
-                                            Clicked="OnHorariosClicked" CommandParameter="{Binding pk_medico}"/>
-                                    <Button Text="&#xf044;" FontFamily="{StaticResource FA}"
-                                            BackgroundColor="#F59E0B" TextColor="White" CornerRadius="12" FontSize="16" WidthRequest="50"
-                                            Clicked="OnEditarClicked" CommandParameter="{Binding pk_medico}"/>
-                                    <Button Text="&#xf1f8;" FontFamily="{StaticResource FA}"
-                                            BackgroundColor="#DC2626" TextColor="White" CornerRadius="12" FontSize="16" WidthRequest="50"
-                                            Clicked="OnEliminarClicked" CommandParameter="{Binding pk_medico}"/>
+                                <!-- Botones de acción -->
+                                <HorizontalStackLayout Grid.Column="2" Spacing="10" VerticalOptions="Center">
+                                    <Button Text="&#xf073;" 
+                                            FontFamily="{StaticResource FA}"
+                                            BackgroundColor="#8B5CF6" 
+                                            TextColor="White" 
+                                            CornerRadius="12" 
+                                            FontSize="16" 
+                                            WidthRequest="50"
+                                            Clicked="OnHorariosClicked"
+                                            CommandParameter="{Binding pk_medico}"/>
+
+                                    <Button Text="&#xf044;" 
+                                            FontFamily="{StaticResource FA}"
+                                            BackgroundColor="#F59E0B" 
+                                            TextColor="White" 
+                                            CornerRadius="12" 
+                                            FontSize="16" 
+                                            WidthRequest="50"
+                                            Clicked="OnEditarClicked"
+                                            CommandParameter="{Binding pk_medico}"/>
+
+                                    <Button Text="&#xf1f8;" 
+                                            FontFamily="{StaticResource FA}"
+                                            BackgroundColor="#DC2626" 
+                                            TextColor="White" 
+                                            CornerRadius="12" 
+                                            FontSize="16" 
+                                            WidthRequest="50"
+                                            Clicked="OnEliminarClicked"
+                                            CommandParameter="{Binding pk_medico}"/>
                                 </HorizontalStackLayout>
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
