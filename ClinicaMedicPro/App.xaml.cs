@@ -1,4 +1,6 @@
-﻿namespace ClinicaMedicPro
+﻿using ClinicaMedicPro.Vistas;
+
+namespace ClinicaMedicPro
 {
     public partial class App : Application
     {

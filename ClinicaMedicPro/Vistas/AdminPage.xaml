@@ -5,6 +5,7 @@
              BackgroundColor="#F8FAFC"
              Title="Panel Administrador">
 
+    
     <ScrollView>
         <VerticalStackLayout Padding="25" Spacing="25">
 

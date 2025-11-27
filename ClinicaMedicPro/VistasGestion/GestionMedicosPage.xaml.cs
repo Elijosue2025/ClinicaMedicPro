@@ -7,7 +7,7 @@ namespace ClinicaMedicPro.VistasGestion;
 public partial class GestionMedicosPage : ContentPage
 {
     private readonly HttpClient client = new HttpClient();
-    private const string UrlApi = "http://127.0.0.1/wsCitas/api.php?resource=medico"; // CAMBIA
+    private const string UrlApi = "http://172.0.0.1/wsCitas/api.php?resource=medico"; // CAMBIA
     public ObservableCollection<Medico> Medicos { get; set; } = new();
     public GestionMedicosPage()
     {
@@ -33,7 +33,7 @@ public partial class GestionMedicosPage : ContentPage
 
     private async void OnNuevoMedicoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new NuevoMedicoPage());
+        await Navigation.PushAsync(new EditarMedicoPage());
     }
 
     private async void OnEditarClicked(object sender, EventArgs e)

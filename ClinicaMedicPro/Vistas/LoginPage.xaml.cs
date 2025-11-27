@@ -1,4 +1,5 @@
-using ClinicaMedicPro.Service;
+ï»¿using ClinicaMedicPro.Service;
+using Newtonsoft.Json;
 namespace ClinicaMedicPro.Vistas;
 
 public partial class LoginPage : ContentPage
@@ -15,7 +16,7 @@ public partial class LoginPage : ContentPage
 
         if (string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(clave))
         {
-            await DisplayAlert("Error", "Ingrese correo y contraseña", "OK");
+            await DisplayAlert("Error", "Ingrese correo y contraseÃ±a", "OK");
             return;
         }
 
@@ -27,25 +28,26 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Error", "Credenciales incorrectas", "OK");
             return;
         }
-        await DisplayAlert("Bienvenido", $"Hola {usuario.nombre}", "OK");
 
-        // Redirección según rol
-        switch (usuario.rol?.Trim().ToLower())  // ? con ? para seguridad extra
+        // GUARDAR DATOS DEL USUARIO (muy importante para las demÃ¡s pÃ¡ginas)
+        Preferences.Default.Set("UsuarioId", usuario.id);
+        Preferences.Default.Set("UsuarioNombre", usuario.nombre ?? "Usuario");
+        Preferences.Default.Set("UsuarioRol", usuario.rol ?? "paciente");
+
+        // REDIRECCIÃ“N SEGÃšN ROL
+        switch (usuario.rol?.Trim().ToLower())
         {
             case "admin":
                 await Shell.Current.GoToAsync("//AdminPage");
                 break;
             case "medico":
-                    await Shell.Current.GoToAsync("//MedicoPage");
+                // ... tu cÃ³digo de medicoId
+                await Shell.Current.GoToAsync("//MedicoPage");
                 break;
             case "paciente":
                 await Shell.Current.GoToAsync("//PacientePage");
                 break;
-            default:
-                await DisplayAlert("Error", "Rol no válido", "OK");
-                break;
         }
-
     }
 
     private void OnRegistroClicked(object sender, EventArgs e)
@@ -55,7 +57,7 @@ public partial class LoginPage : ContentPage
 
     private void OnHuellaClicked(object sender, EventArgs e)
     {
-        // Luego agregamos biometría.
+        // Luego agregamos biometrÃ­a.
     }
 
     private void OnGoogleLoginClicked(object sender, EventArgs e)

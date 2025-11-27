@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.Vistas.MisPacientesPage"
+             Title="Mis Pacientes"
+             Background="#F8FAFC">
+
+    <CollectionView ItemsSource="{Binding Pacientes}" Margin="20">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Margin="0,5"
+                        Padding="15">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.08" Radius="12" Offset="0,5"/>
+                    </Border.Shadow>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Avatar -->
+                        <Border BackgroundColor="#3B82F6" 
+                                WidthRequest="60" HeightRequest="60"
+                               
+                                HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="{Binding Iniciales}"
+                                   TextColor="White" FontAttributes="Bold" FontSize="20"/>
+                        </Border>
+
+                        <!-- Datos -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="4" Margin="15,0">
+                            <Label Text="{Binding NombreCompleto}" FontAttributes="Bold" FontSize="18"/>
+                            <Label Text="{Binding Correo}" FontSize="14" TextColor="#64748B"/>
+                            <Label Text="{Binding Cedula}" FontSize="13" TextColor="#94A3B8"/>
+                        </VerticalStackLayout>
+
+                        <!-- Flecha → abrir detalle -->
+                        <Label Grid.Column="2" Text=">" FontSize="30" TextColor="#3B82F6" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IrADetalleCommand}"
+                                                      CommandParameter="{Binding pk_paciente}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

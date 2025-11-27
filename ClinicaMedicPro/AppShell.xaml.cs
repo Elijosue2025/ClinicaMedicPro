@@ -8,9 +8,7 @@ namespace ClinicaMedicPro
         {
             InitializeComponent();
 
-            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
-            Routing.RegisterRoute("MedicoPage", typeof(MedicoPage));
-            Routing.RegisterRoute("PacientePage", typeof(PacientePage));
+            
         }
     }
 }

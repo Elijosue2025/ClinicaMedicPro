@@ -2,33 +2,38 @@
 using Newtonsoft.Json;
 using System.Text;
 
+namespace ClinicaMedicPro.Service;
+
 public class AuthService
 {
-    private readonly string baseUrl = "http://localhost/wsCitas/api.php?resource=usuario&action=login";
+    private readonly HttpClient client = new();
+    private readonly string loginUrl = $"{ApiConfig.BaseUrl}?resource=usuario&action=login";
 
     public async Task<Usuario?> LoginAsync(string correo, string password)
     {
-        using var client = new HttpClient();
-
-        var data = new
+        try
         {
-            us_correo = correo,
-            us_password = password
-        };
+            var data = new { us_correo = correo, us_password = password };
+            string json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        string json = JsonConvert.SerializeObject(data);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(loginUrl, content);
 
-        var response = await client.PostAsync(baseUrl, content);
-        if (!response.IsSuccessStatusCode)
-            return null;
+            if (!response.IsSuccessStatusCode)
+                return null;
 
-        var jsonResp = await response.Content.ReadAsStringAsync();
+            var jsonResp = await response.Content.ReadAsStringAsync();
 
-        if (jsonResp.Contains("error"))
-            return null;
+            // Si tu API devuelve algo como { "error": "..." }
+            if (jsonResp.Contains("\"error\"") || jsonResp.Contains("error"))
+                return null;
 
-        return JsonConvert.DeserializeObject<Usuario>(jsonResp);
+            return JsonConvert.DeserializeObject<Usuario>(jsonResp);
+        }
+        catch
+        {
+            return null; // Falló la conexión o el servidor
+        }
     }
 }
 

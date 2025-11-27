@@ -1,14 +1,21 @@
+using ClinicaMedicPro.Vistas;
+
 namespace ClinicaMedicPro.Vistas;
 
 public partial class MedicoPage : ContentPage
 {
-    public string NombreMedico { get; set; }
-
-    public MedicoPage(string nombre)
+    public MedicoPage()
     {
         InitializeComponent();
-        NombreMedico = nombre;
-        BindingContext = this;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Cargar el nombre desde Preferences (o desde tu AuthService)
+        var nombre = Preferences.Default.Get("UsuarioNombre", "Médico");
+        BindingContext = new { NombreMedico = nombre };
     }
 
     private async void IrAgendarCita_Clicked(object sender, EventArgs e)
@@ -27,5 +34,9 @@ public partial class MedicoPage : ContentPage
         => await DisplayAlert("Chat", "Abrir chat en tiempo real", "OK");
 
     private async void CerrarSesion_Clicked(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//LoginPage");
+    {
+        Preferences.Default.Remove("UsuarioNombre");
+        Preferences.Default.Remove("UsuarioRol");
+        await Shell.Current.GoToAsync("//LoginPage");
+    }
 }
