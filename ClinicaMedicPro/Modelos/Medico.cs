@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿// ClinicaMedicPro/Modelos/Medico.cs
+using System.Text.Json.Serialization;
 
 namespace ClinicaMedicPro.Modelos
 {
@@ -10,13 +11,8 @@ namespace ClinicaMedicPro.Modelos
         [JsonPropertyName("me_especialidad")]
         public string? me_especialidad { get; set; }
 
-        // ESTE ES EL CORRECTO → el fk_usuario viene como pk_usuario en el JSON
         [JsonPropertyName("pk_usuario")]
-        public int fk_usuario { get; set; }
-
-        // QUITA ESTA LÍNEA → era la que causaba el conflicto
-        // [JsonPropertyName("pk_usuario")]
-        // public int pk_usuario { get; set; }
+        public int fk_usuario { get; set; } // ← Correcto: tu API devuelve "pk_usuario"
 
         [JsonPropertyName("us_nombre")]
         public string us_nombre { get; set; } = string.Empty;
@@ -30,14 +26,22 @@ namespace ClinicaMedicPro.Modelos
         [JsonPropertyName("us_ubicacion")]
         public string? us_ubicacion { get; set; }
 
-        // Propiedades calculadas (perfectas)
-        public string NombreCompleto => us_nombre;
-        public string Correo => us_correo;
-        public string EspecialidadDisplay => string.IsNullOrEmpty(me_especialidad) ? "General" : me_especialidad;
+        // Propiedades calculadas
+        [JsonIgnore]
+        public string Iniciales
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(us_nombre)) return "??";
+                var partes = us_nombre.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                return partes.Length >= 2
+                    ? $"{char.ToUpper(partes[0][0])}{char.ToUpper(partes[^1][0])}"
+                    : char.ToUpper(partes[0][0]).ToString();
+            }
+        }
 
-        public string Iniciales =>
-            string.Join("", us_nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Take(2)
-                .Select(p => char.ToUpper(p[0]))).ToUpper();
+        [JsonIgnore]
+        public string EspecialidadDisplay =>
+            string.IsNullOrWhiteSpace(me_especialidad) ? "General" : me_especialidad;
     }
 }

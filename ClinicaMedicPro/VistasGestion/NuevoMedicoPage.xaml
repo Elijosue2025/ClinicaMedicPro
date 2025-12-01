@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.VistasGestion.NuevoMedicoPage"
+             Title="Seleccionar Usuario">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Selecciona un usuario para convertirlo en médico"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#1E293B"/>
+
+        <SearchBar Placeholder="Buscar usuario..." 
+                   Text="{Binding Filtro}"
+                   TextChanged="OnFiltroChanged"/>
+
+        <ListView x:Name="ListaUsuarios"
+                  ItemsSource="{Binding UsuariosFiltrados}"
+                  HasUnevenRows="True"
+                  ItemTapped="OnUsuarioTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="15" ColumnDefinitions="Auto,*,Auto">
+                            <Label Text="User" FontFamily="FA" FontSize="24" TextColor="#0EA5E9"/>
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0">
+                                <Label Text="{Binding us_nombre}" FontAttributes="Bold"/>
+                                <Label Text="{Binding us_correo}" FontSize="12" TextColor="#64748B"/>
+                                <Label Text="{Binding us_tipo}" FontSize="11" TextColor="#94A3B8"/>
+                            </VerticalStackLayout>
+                            <Label Text="Right Arrow" FontFamily="FA" FontSize="20" Grid.Column="2" TextColor="#94A3B8"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#0EA5E9" IsVisible="{Binding IsBusy}"/>
+    </VerticalStackLayout>
+</ContentPage>

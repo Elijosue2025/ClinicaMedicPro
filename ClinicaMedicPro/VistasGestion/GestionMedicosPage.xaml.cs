@@ -1,75 +1,107 @@
-﻿
+﻿// GestionMedicosPage.xaml.cs
 using ClinicaMedicPro.Modelos;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 
-namespace ClinicaMedicPro.VistasGestion;
-
-public partial class GestionMedicosPage : ContentPage
+namespace ClinicaMedicPro.VistasGestion
 {
-    private readonly HttpClient client = new HttpClient();
-    private const string UrlApi = "http://127.0.0.1/wsCitas/api.php?resource=medico";
-    public ObservableCollection<Medico> Medicos { get; set; } = new();
-    public GestionMedicosPage()
+    public partial class GestionMedicosPage : ContentPage
     {
-        InitializeComponent();
-        BindingContext = this;
-        CargarMedicos();
-    }
+        public ObservableCollection<Medico> Medicos { get; set; } = new();
 
-    private async void CargarMedicos()
-    {
-        try
+        public GestionMedicosPage()
         {
-            var json = await client.GetStringAsync(UrlApi);
-            var lista = JsonConvert.DeserializeObject<List<Medico>>(json);
-            Medicos.Clear();
-            foreach (var m in lista ?? new List<Medico>()) Medicos.Add(m);
+            InitializeComponent();
+            BindingContext = this;
+            CargarMedicos();
         }
-        catch (Exception ex)
+
+        protected override void OnAppearing()
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            base.OnAppearing();
+            CargarMedicos();
         }
-    }
 
-    private async void OnNuevoMedicoClicked(object sender, EventArgs e)
-    {
-    }
-
-    private async void OnEditarClicked(object sender, EventArgs e)
-    {
-        var boton = (Button)sender;
-        var medico = (Medico)boton.CommandParameter;
-        await Navigation.PushAsync(new EditarMedicoPage(medico));
-    }
-
-    private async void OnEliminarClicked(object sender, EventArgs e)
-    {
-        var boton = (Button)sender;
-        var medico = (Medico)boton.CommandParameter;
-        var respuesta = await DisplayAlert("Confirmar", $"¿Eliminar Dr. {medico.us_nombre}?", "Sí", "No");
-        if (respuesta)
+        private async void CargarMedicos()
         {
-            var res = await client.DeleteAsync($"{UrlApi}&id={medico.pk_medico}");
-            if (res.IsSuccessStatusCode)
+            try
             {
-                await DisplayAlert("Éxito", "Médico eliminado", "OK");
-                CargarMedicos();
+                var client = new HttpClient();
+                var json = await client.GetStringAsync("http://127.0.0.1/wsCitas/api.php?resource=medico");
+                var lista = System.Text.Json.JsonSerializer.Deserialize<List<Medico>>(json,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                Medicos.Clear();
+                foreach (var m in lista ?? new List<Medico>())
+                    Medicos.Add(m);
             }
-            else await DisplayAlert("Error", "No se pudo eliminar", "OK");
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", "No se pudieron cargar los médicos: " + ex.Message, "OK");
+            }
         }
-    }
 
-    private async void OnHorariosClicked(object sender, EventArgs e)
-    {
-        var boton = (Button)sender;
-        var medico = (Medico)boton.CommandParameter;
-        await DisplayAlert("Horarios", $"Próximamente para Dr. {medico.us_nombre}", "OK");
-    }
+        private async void OnNuevoMedicoClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NuevoMedicoPage());
+        }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        CargarMedicos();
+        // AQUÍ ESTABAN FALTANDO ESTOS TRES MÉTODOS
+        private async void OnHorariosClicked(object sender, EventArgs e)
+        {
+            if (sender is Button btn && btn.CommandParameter is int id)
+            {
+                var medico = Medicos.FirstOrDefault(m => m.pk_medico == id);
+                await DisplayAlert("Horarios",
+                    $"Funcionalidad de horarios para Dr(a). {medico?.us_nombre} próximamente", "OK");
+            }
+        }
+
+        private async void OnEditarClicked(object sender, EventArgs e)
+        {
+            if (sender is Button btn && btn.CommandParameter is int id)
+            {
+                var medico = Medicos.FirstOrDefault(m => m.pk_medico == id);
+                if (medico != null)
+                {
+                    await Navigation.PushAsync(new EditarMedicoPage(medico));
+                }
+            }
+        }
+
+        private async void OnEliminarClicked(object sender, EventArgs e)
+        {
+            if (sender is Button btn && btn.CommandParameter is int id)
+            {
+                var medico = Medicos.FirstOrDefault(m => m.pk_medico == id);
+                if (medico == null) return;
+
+                bool confirmar = await DisplayAlert("Eliminar médico",
+                    $"¿Estás seguro de eliminar al Dr(a). {medico.us_nombre}?",
+                    "Sí, eliminar", "Cancelar");
+
+                if (!confirmar) return;
+
+                try
+                {
+                    var client = new HttpClient();
+                    var response = await client.DeleteAsync($"http://127.0.0.1/wsCitas/api.php?resource=medico&id={id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await DisplayAlert("Éxito", "Médico eliminado correctamente", "OK");
+                        CargarMedicos();
+                    }
+                    else
+                    {
+                        var error = await response.Content.ReadAsStringAsync();
+                        await DisplayAlert("Error", error, "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", ex.Message, "OK");
+                }
+            }
+        }
     }
 }

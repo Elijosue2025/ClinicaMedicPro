@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Shell
+    x:Class="ClinicaMedicPro.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vistas="clr-namespace:ClinicaMedicPro.Vistas"
-    xmlns:gestion="clr-namespace:ClinicaMedicPro.VistasGestion"
-    x:Class="ClinicaMedicPro.AppShell">
+    xmlns:gestion="clr-namespace:ClinicaMedicPro.VistasGestion">
 
-    <!-- PRINCIPALES -->
-    <ShellContent Route="LoginPage"     ContentTemplate="{DataTemplate vistas:LoginPage}" />
-    <ShellContent Route="AdminPage"     ContentTemplate="{DataTemplate vistas:AdminPage}" />
-    <ShellContent Route="MedicoPage"    ContentTemplate="{DataTemplate vistas:MedicoPage}" />
-    <ShellContent Route="PacientePage"  ContentTemplate="{DataTemplate vistas:PacientePage}" />
+    <!-- ====================== PÁGINAS PRINCIPALES ====================== -->
+    <ShellContent Route="LoginPage"      ContentTemplate="{DataTemplate vistas:LoginPage}" />
+    <ShellContent Route="AdminPage"      ContentTemplate="{DataTemplate vistas:AdminPage}" />
+    <ShellContent Route="MedicoPage"     ContentTemplate="{DataTemplate vistas:MedicoPage}" />
+    <ShellContent Route="PacientePage"   ContentTemplate="{DataTemplate vistas:PacientePage}" />
 
-    <!-- SECUNDARIAS -->
+    <!-- ====================== GESTIÓN DE MÉDICOS (ESTRUCTURA NORMAL) ====================== -->
     <ShellContent Route="GestionMedicosPage" ContentTemplate="{DataTemplate gestion:GestionMedicosPage}" />
+    <ShellContent Route="NuevoMedicoPage"    ContentTemplate="{DataTemplate gestion:NuevoMedicoPage}" />
+    <ShellContent Route="CrearMedicoPage"    ContentTemplate="{DataTemplate gestion:CrearMedicoPage}" />
+    <ShellContent Route="EditarMedicoPage"   ContentTemplate="{DataTemplate gestion:EditarMedicoPage}" />
+
+    <!-- ====================== OTRAS PÁGINAS ====================== -->
     <ShellContent Route="MisPacientesPage"    ContentTemplate="{DataTemplate vistas:MisPacientesPage}" />
     <ShellContent Route="DetallePacientePage" ContentTemplate="{DataTemplate vistas:DetallePacientePage}" />
     <ShellContent Route="RegistroPage"        ContentTemplate="{DataTemplate vistas:RegistroPage}" />
