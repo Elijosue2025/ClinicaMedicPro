@@ -1,4 +1,5 @@
 using ClinicaMedicPro.Modelos;
+using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -17,11 +18,9 @@ namespace ClinicaMedicPro.VistasGestion
             lblNombre.Text = usuario.nombre;
             lblCorreo.Text = usuario.us_correo;
         }
-
         private async void OnCrearMedicoClicked(object sender, EventArgs e)
         {
             string especialidad = txtEspecialidad.Text?.Trim();
-
             if (string.IsNullOrWhiteSpace(especialidad))
             {
                 await DisplayAlert("Error", "La especialidad es obligatoria", "OK");
@@ -32,36 +31,33 @@ namespace ClinicaMedicPro.VistasGestion
             {
                 var datos = new
                 {
-                    fk_usuario = _usuario.id,
-                    me_especialidad = especialidad
+                    usuario_id = _usuario.id,
+                    especialidad = especialidad
                 };
 
-                var json = JsonSerializer.Serialize(datos);
+                var json = JsonConvert.SerializeObject(datos);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 using var client = new HttpClient();
                 var response = await client.PostAsync(
-                    "http://127.0.0.1/wsCitas/api.php?resource=medico", content);
+                    $"{ApiConfig.BaseUrl}?resource=convertir-medico", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await DisplayAlert("Éxito", 
-                        $"Dr(a). {_usuario.nombre} creado como médico correctamente", "OK");
-                    
-                    // Regresa a la lista de médicos
-                    await Navigation.PopToRootAsync();
-                    // O si solo quieres volver una página:
-                    // await Navigation.PopAsync();
+                    await DisplayAlert("Éxito",
+                        $"Dr(a). {_usuario.nombre} ahora es médico ({especialidad})", "OK");
+
+                    await Navigation.PopToRootAsync(); // vuelve y refresca todo
                 }
                 else
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    await DisplayAlert("Error del servidor", error, "OK");
+                    await DisplayAlert("Error", error, "OK");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert("Error de conexión", ex.Message, "OK");
             }
         }
     }

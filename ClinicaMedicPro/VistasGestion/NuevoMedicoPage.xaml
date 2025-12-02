@@ -3,38 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.VistasGestion.NuevoMedicoPage"
              Title="Seleccionar Usuario">
-    <VerticalStackLayout Padding="20" Spacing="15">
-        <Label Text="Selecciona un usuario para convertirlo en médico"
-               FontSize="20"
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="FA" x:TypeArguments="x:String">
+                <On Platform="Android" Value="fa-solid-900.ttf#Font Awesome 6 Free" />
+                <On Platform="iOS" Value="Font Awesome 6 Free-Solid-900" />
+                <On Platform="WinUI" Value="Assets/Fonts/fa-solid-900.ttf#Font Awesome 6 Free" />
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#F8FAFC">
+
+        <Label Text="Convertir usuario en Médico"
+               FontSize="22"
                FontAttributes="Bold"
                HorizontalOptions="Center"
                TextColor="#1E293B"/>
 
-        <SearchBar Placeholder="Buscar usuario..." 
-                   Text="{Binding Filtro}"
-                   TextChanged="OnFiltroChanged"/>
+        <SearchBar x:Name="searchBar"
+                   Placeholder="Buscar por nombre o correo..."
+                   TextChanged="OnFiltroChanged"
+                   BackgroundColor="White"
+                   HeightRequest="50"/>
 
-        <ListView x:Name="ListaUsuarios"
-                  ItemsSource="{Binding UsuariosFiltrados}"
-                  HasUnevenRows="True"
-                  ItemTapped="OnUsuarioTapped">
-            <ListView.ItemTemplate>
+        <CollectionView ItemsSource="{Binding UsuariosFiltrados}"
+                        SelectionMode="Single"
+                        SelectionChanged="OnUsuarioSeleccionado">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="15" ColumnDefinitions="Auto,*,Auto">
-                            <Label Text="User" FontFamily="FA" FontSize="24" TextColor="#0EA5E9"/>
-                            <VerticalStackLayout Grid.Column="1" Margin="10,0">
-                                <Label Text="{Binding us_nombre}" FontAttributes="Bold"/>
-                                <Label Text="{Binding us_correo}" FontSize="12" TextColor="#64748B"/>
-                                <Label Text="{Binding us_tipo}" FontSize="11" TextColor="#94A3B8"/>
-                            </VerticalStackLayout>
-                            <Label Text="Right Arrow" FontFamily="FA" FontSize="20" Grid.Column="2" TextColor="#94A3B8"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    <Grid Padding="18" BackgroundColor="White" Margin="0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#0EA5E9" IsVisible="{Binding IsBusy}"/>
+                        <!-- Avatar -->
+                        <Border BackgroundColor="#3B82F6" 
+                                WidthRequest="56" HeightRequest="56"
+                                StrokeShape="Ellipse"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                            <Label Text="{Binding Iniciales}"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="20"/>
+                        </Border>
+
+                        <!-- Info -->
+                        <VerticalStackLayout Grid.Column="1" Margin="15,0" VerticalOptions="Center">
+                            <Label Text="{Binding us_nombre}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="18"/>
+                            <Label Text="{Binding us_correo}" 
+                                   FontSize="15" 
+                                   TextColor="#64748B"/>
+                            <Label Text="{Binding us_tipo, StringFormat='Rol: {0}'}"
+                                   FontSize="13"
+                                   TextColor="#94A3B8"/>
+                        </VerticalStackLayout>
+
+                        <!-- Flecha derecha -->
+                        <Label Grid.Column="2"
+                               Text="&#xf054;"
+                               FontFamily="{StaticResource FA}"
+                               FontSize="28"
+                               TextColor="#94A3B8"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Indicador de carga -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           Color="#3B82F6"
+                           IsVisible="{Binding IsBusy}"
+                           VerticalOptions="CenterAndExpand"/>
     </VerticalStackLayout>
 </ContentPage>

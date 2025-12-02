@@ -1,72 +1,80 @@
 using ClinicaMedicPro.Modelos;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
-namespace ClinicaMedicPro.VistasGestion
+namespace ClinicaMedicPro.VistasGestion;
+
+public partial class NuevoMedicoPage : ContentPage, INotifyPropertyChanged
 {
-    public partial class NuevoMedicoPage : ContentPage
+    private List<Usuario> TodosUsuarios = new();
+    private string _filtro = "";
+
+    public List<Usuario> UsuariosFiltrados => string.IsNullOrWhiteSpace(_filtro)
+        ? TodosUsuarios
+        : TodosUsuarios.Where(u =>
+            u.nombre.Contains(_filtro, StringComparison.OrdinalIgnoreCase) ||
+            u.us_correo.Contains(_filtro, StringComparison.OrdinalIgnoreCase)).ToList();
+
+    private bool _isBusy;
+    public bool IsBusy
     {
-        private List<Usuario> TodosUsuarios = new();
-        private string _filtro = "";
-        public List<Usuario> UsuariosFiltrados => string.IsNullOrWhiteSpace(_filtro)
-            ? TodosUsuarios
-            : TodosUsuarios.Where(u => u.nombre.Contains(_filtro, StringComparison.OrdinalIgnoreCase) ||
-                                      u.us_correo.Contains(_filtro, StringComparison.OrdinalIgnoreCase)).ToList();
+        get => _isBusy;
+        set { _isBusy = value; OnPropertyChanged(); }
+    }
 
-        public bool IsBusy { get; set; }
+    public NuevoMedicoPage()
+    {
+        InitializeComponent();
+        BindingContext = this;
+        CargarUsuarios();
+    }
 
-        public NuevoMedicoPage()
+    private async void CargarUsuarios()
+    {
+        IsBusy = true;
+        try
         {
-            InitializeComponent();
-            BindingContext = this;
-            CargarUsuarios();
-        }
+            var client = new HttpClient();
 
-        private async void CargarUsuarios()
-        {
-            try
-            {
-                IsBusy = true;
-                OnPropertyChanged(nameof(IsBusy));
+            // Cargar todos los usuarios
+            var jsonUsuarios = await client.GetStringAsync($"{ApiConfig.BaseUrl}?resource=usuario");
+            var todos = JsonConvert.DeserializeObject<List<Usuario>>(jsonUsuarios) ?? new();
 
-                var client = new HttpClient();
-                var json = await client.GetStringAsync("http://127.0.0.1/wsCitas/api.php?resource=usuario");
-                var usuarios = JsonConvert.DeserializeObject<List<Usuario>>(json);
+            // Cargar médicos existentes
+            var jsonMedicos = await client.GetStringAsync($"{ApiConfig.BaseUrl}?resource=medico");
+            var medicos = JsonConvert.DeserializeObject<List<Medico>>(jsonMedicos) ?? new();
+            var idsMedicos = medicos.Select(m => m.fk_usuario).ToHashSet();
 
-                // Filtrar: solo usuarios que no son ya médicos (opcional)
-                var medicos = await client.GetStringAsync("http://127.0.0.1/wsCitas/api.php?resource=medico");
-                var medicosLista = JsonConvert.DeserializeObject<List<Medico>>(medicos);
-                var idsMedicos = medicosLista.Select(m => m.fk_usuario).ToHashSet();
-
-                TodosUsuarios = usuarios.Where(u => !idsMedicos.Contains(u.id)).ToList();
-                OnPropertyChanged(nameof(UsuariosFiltrados));
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", "No se pudieron cargar usuarios: " + ex.Message, "OK");
-            }
-            finally
-            {
-                IsBusy = false;
-                OnPropertyChanged(nameof(IsBusy));
-            }
-        }
-
-        private void OnFiltroChanged(object sender, TextChangedEventArgs e)
-        {
-            _filtro = e.NewTextValue ?? "";
+            // Filtrar: solo usuarios que NO son médicos
+            TodosUsuarios = todos.Where(u => !idsMedicos.Contains(u.id)).ToList();
             OnPropertyChanged(nameof(UsuariosFiltrados));
         }
-
-        private async void OnUsuarioTapped(object sender, ItemTappedEventArgs e)
+        catch (Exception ex)
         {
-            if (e.Item is Usuario usuario)
-            {
-                await Navigation.PushAsync(new CrearMedicoPage(usuario));
-                ((ListView)sender).SelectedItem = null;
-            }
+            await DisplayAlert("Error", "No se pudieron cargar usuarios: " + ex.Message, "OK");
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 
-    // Modelo simple
+    private void OnFiltroChanged(object sender, TextChangedEventArgs e)
+    {
+        _filtro = e.NewTextValue ?? "";
+        OnPropertyChanged(nameof(UsuariosFiltrados));
+    }
 
+    private async void OnUsuarioSeleccionado(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is Usuario usuario)
+        {
+            ((CollectionView)sender).SelectedItem = null;
+            await Navigation.PushAsync(new CrearMedicoPage(usuario));
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
