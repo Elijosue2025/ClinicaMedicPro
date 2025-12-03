@@ -63,7 +63,15 @@ public partial class PacientesAdminPage : ContentPage
     {
         if (sender is Button btn && btn.CommandParameter is int id)
         {
-            await Navigation.PushAsync(new AgendarCitaPage(id));
+            var paciente = PacientesFiltrados.FirstOrDefault(p => p.pk_paciente == id);
+            if (paciente != null)
+            {
+                await Navigation.PushAsync(new AgendarCitaPage(
+                    paciente.pk_paciente,
+                    paciente.us_nombre,
+                    paciente.us_correo
+                ));
+            }
         }
     }
 

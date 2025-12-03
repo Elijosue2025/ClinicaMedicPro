@@ -22,6 +22,7 @@ public class AuthService
             if (!response.IsSuccessStatusCode)
                 return null;
 
+
             var jsonResp = await response.Content.ReadAsStringAsync();
 
             // Si tu API devuelve algo como { "error": "..." }

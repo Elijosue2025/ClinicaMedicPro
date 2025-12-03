@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.GestionUsers.EditarUsuarioPage"
+             Title="Editar Usuario"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="25">
+
+            <!-- Título -->
+            <Border BackgroundColor="#6366F1" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <Label Text="Editar Usuario" 
+                       FontSize="26" FontAttributes="Bold" TextColor="White"/>
+            </Border>
+
+            <!-- Formulario -->
+            <Border BackgroundColor="White" Stroke="#E2E8F0" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="18">
+                    <Entry x:Name="txtNombre" 
+                           Placeholder="Nombre completo" 
+                           FontSize="16"/>
+
+                    <Entry x:Name="txtCorreo" 
+                           Placeholder="Correo electrónico" 
+                           Keyboard="Email"
+                           FontSize="16"/>
+
+                    <Picker x:Name="pickerRol" 
+                            Title="Seleccionar rol"
+                            FontSize="16">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>admin</x:String>
+                                <x:String>medico</x:String>
+                                <x:String>paciente</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!-- Especialidad solo visible si es médico -->
+                    <Entry x:Name="txtEspecialidad" 
+                           Placeholder="Especialidad (solo médicos)"
+                           FontSize="16"
+                           IsVisible="False"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Botones -->
+            <HorizontalStackLayout Spacing="15">
+                <Button Text="CANCELAR"
+                        BackgroundColor="#94A3B8"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="55"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnCancelarClicked"/>
+
+                <Button Text="GUARDAR CAMBIOS"
+                        BackgroundColor="#10B981"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="55"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnGuardarClicked"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

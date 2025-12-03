@@ -5,20 +5,26 @@ namespace ClinicaMedicPro.Modelos;
 public class HistorialClinico
 {
     [JsonProperty("pk_historial")]
-    public int pk_historial { get; set; }
+    public int PkHistorial { get; set; }
 
     [JsonProperty("hi_diagnostico")]
-    public string hi_diagnostico { get; set; } = "";
+    public string HiDiagnostico { get; set; } = "";
 
     [JsonProperty("hi_tratamiento")]
-    public string? hi_tratamiento { get; set; }
+    public string? HiTratamiento { get; set; }
 
     [JsonProperty("hi_notas")]
-    public string? hi_notas { get; set; }
+    public string? HiNotas { get; set; }
 
     [JsonProperty("hi_fecha")]
-    public string hi_fecha { get; set; } = "";
+    public string HiFecha { get; set; } = "";
 
     [JsonProperty("medico_nombre")]
-    public string? medico_nombre { get; set; }
+    public string? MedicoNombre { get; set; }
+
+    [JsonProperty("paciente_nombre")]
+    public string? PacienteNombre { get; set; }
+
+    [JsonProperty("me_especialidad")]
+    public string? MeEspecialidad { get; set; }
 }

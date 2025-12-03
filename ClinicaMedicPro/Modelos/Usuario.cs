@@ -20,5 +20,6 @@ namespace ClinicaMedicPro.Modelos
         public string? us_correo { get; set; }
 
         public override string ToString() => nombre;
+
     }
 }

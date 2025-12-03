@@ -1,4 +1,5 @@
 ﻿using ClinicaMedicPro.VistaGestionCitasPaceintes;
+using ClinicaMedicPro.VistasGestion;
 
 namespace ClinicaMedicPro.Vistas;
 
@@ -44,10 +45,13 @@ public partial class AdminPage : ContentPage
         => await DisplayAlert("Ingresos", "Reportes financieros", "OK");
 
     private async void OnGestionUsuariosTapped(object sender, EventArgs e)
-        => await DisplayAlert("Usuarios", "Gestión de cuentas", "OK");
-
+    {
+        await Shell.Current.GoToAsync("//Usuarios");
+    }
     private async void OnGestionMedicosTapped(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//GestionMedicosPage");
+    {
+        await Navigation.PushAsync(new GestionMedicosPage());
+    }
 
     private async void OnCitasTapped(object sender, EventArgs e)
         => await DisplayAlert("Citas", "Calendario completo", "OK");

@@ -2,11 +2,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.VistaGestionCitasPaceintes.AgendarCitaPage"
-             Title="AgendarCitaPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Agendar Cita"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25" Spacing="25">
+
+            <!-- Título + Paciente seleccionado -->
+            <Frame BackgroundColor="#E0E7FF" CornerRadius="16" Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Paciente seleccionado" FontSize="16" TextColor="#4F46E5"/>
+                    <Label x:Name="lblPaciente" FontAttributes="Bold" FontSize="22" TextColor="#1E293B"/>
+                    <Label x:Name="lblCorreo" FontSize="15" TextColor="#64748B"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Selección de Médico -->
+            <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Seleccionar Médico" FontAttributes="Bold" FontSize="18"/>
+                    <Picker x:Name="pickerMedicos"
+                            Title="Elige un médico"
+                            TitleColor="#64748B"
+                            TextColor="#1E293B"
+                            FontSize="16"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Fecha y Hora -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Label Text="Fecha" FontAttributes="Bold" FontSize="16"/>
+                        <DatePicker x:Name="datePicker" MinimumDate="{Binding Hoy}" Date="{Binding FechaSeleccionada}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Label Text="Hora" FontAttributes="Bold" FontSize="16"/>
+                        <TimePicker x:Name="timePicker" Time="{Binding HoraSeleccionada}"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Motivo -->
+            <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Motivo de la consulta" FontAttributes="Bold" FontSize="16"/>
+                    <Editor x:Name="txtMotivo" Placeholder="Ej: Dolor de cabeza, chequeo general..." HeightRequest="100"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botón Agendar -->
+            <Button Text="AGENDAR CITA"
+                    BackgroundColor="#10B981"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="16"
+                    HeightRequest="60"
+                    FontSize="18"
+                    Clicked="OnAgendarClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

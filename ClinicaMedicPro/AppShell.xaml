@@ -1,35 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Shell
-    x:Class="ClinicaMedicPro.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vistas="clr-namespace:ClinicaMedicPro.Vistas"
-    xmlns:pacientes="clr-namespace:ClinicaMedicPro.VistaGestionCitasPaceintes"
-    xmlns:gestion="clr-namespace:ClinicaMedicPro.VistasGestion">
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:vistas="clr-namespace:ClinicaMedicPro.Vistas"
+       xmlns:pacientes="clr-namespace:ClinicaMedicPro.VistaGestionCitasPaceintes"
+       xmlns:gestion="clr-namespace:ClinicaMedicPro.GestionUsers"
+       xmlns:vgestion="clr-namespace:ClinicaMedicPro.VistasGestion"
+       x:Class="ClinicaMedicPro.AppShell"
+       FlyoutBehavior="Disabled">
+    <!-- ← MANTIENE TU DISEÑO INTACTO -->
+
+    <!-- ====================== PÁGINA INICIAL (SOLO UNA) ====================== -->
+    <ShellContent Route="LoginPage"
+                  ContentTemplate="{DataTemplate vistas:LoginPage}" />
+
+    <!-- ====================== TODAS LAS DEMÁS PÁGINAS (DENTRO DE UN TAB INVISIBLE) ====================== -->
+        <!-- Admin -->
+        <ShellContent Route="AdminPage"
+                      ContentTemplate="{DataTemplate vistas:AdminPage}" />
+
+        <ShellContent Route="MedicoPage"
+                      ContentTemplate="{DataTemplate vistas:MedicoPage}" />
+
+        <ShellContent Route="PacientePage"
+                      ContentTemplate="{DataTemplate vistas:PacientePage}" />
+
+        <!-- Gestión de Usuarios -->
+        <ShellContent Route="Usuarios"
+                      ContentTemplate="{DataTemplate gestion:UsuariosPage}" />
+        <ShellContent Route="CrearUsuario"
+                      ContentTemplate="{DataTemplate gestion:CrearUsuarioPage}"
+                      IsVisible="False" />
+        <ShellContent Route="EditarUsuario"
+                      ContentTemplate="{DataTemplate gestion:EditarUsuarioPage}"
+                      IsVisible="False" />
+
+        <!-- Gestión de Pacientes -->
+        <ShellContent Route="PacientesAdmin"
+                      ContentTemplate="{DataTemplate pacientes:PacientesAdminPage}" />
+        <ShellContent Route="NuevoPaciente"
+                      ContentTemplate="{DataTemplate pacientes:NuevoPacientePage}"
+                      IsVisible="False" />
+        <ShellContent Route="AgendarCita"
+                      ContentTemplate="{DataTemplate pacientes:AgendarCitaPage}"
+                      IsVisible="False" />
+        <ShellContent Route="DetallePaciente"
+                      ContentTemplate="{DataTemplate pacientes:DetallePacientePage}"
+                      IsVisible="False" />
+
+        <!-- Gestión de Médicos -->
+        <ShellContent Route="GestionMedicos"
+                      ContentTemplate="{DataTemplate vgestion:GestionMedicosPage}" />
+        <ShellContent Route="NuevoMedico"
+                      ContentTemplate="{DataTemplate vgestion:NuevoMedicoPage}" />
+        <ShellContent Route="CrearMedico"
+                      ContentTemplate="{DataTemplate vgestion:CrearMedicoPage}" />
+        <ShellContent Route="EditarMedico"
+                      ContentTemplate="{DataTemplate vgestion:EditarMedicoPage}"
+                      IsVisible="False" />
 
 
-    <!-- ====================== PÁGINAS PRINCIPALES ====================== -->
-    <ShellContent Route="LoginPage"      ContentTemplate="{DataTemplate vistas:LoginPage}" />
-    <ShellContent Route="AdminPage"      ContentTemplate="{DataTemplate vistas:AdminPage}" />
-    <ShellContent Route="MedicoPage"     ContentTemplate="{DataTemplate vistas:MedicoPage}" />
-    <ShellContent Route="PacientePage"   ContentTemplate="{DataTemplate vistas:PacientePage}" />
-
-    <!-- ====================== GESTIÓN DE MÉDICOS (ESTRUCTURA NORMAL) ====================== -->
-    <ShellContent Route="GestionMedicosPage" ContentTemplate="{DataTemplate gestion:GestionMedicosPage}" />
-    <ShellContent Route="NuevoMedicoPage"    ContentTemplate="{DataTemplate gestion:NuevoMedicoPage}" />
-    <ShellContent Route="CrearMedicoPage"    ContentTemplate="{DataTemplate gestion:CrearMedicoPage}" />
-    <ShellContent Route="EditarMedicoPage"   ContentTemplate="{DataTemplate gestion:EditarMedicoPage}" />
-
-    <!-- ====================== OTRAS PÁGINAS ====================== -->
-    <ShellContent Route="MisPacientesPage"    ContentTemplate="{DataTemplate vistas:MisPacientesPage}" />
-    <ShellContent Route="DetallePacientePage" ContentTemplate="{DataTemplate vistas:DetallePacientePage}" />
-    <ShellContent Route="RegistroPage"        ContentTemplate="{DataTemplate vistas:RegistroPage}" />
-
-    <!-- Gestión de Pacientes (Admin) -->
-    <ShellContent 
-    Route="PacientesAdminPage" 
-    ContentTemplate="{DataTemplate pacientes:PacientesAdminPage}" />
-    <ShellContent Route="NuevoPacientePage"  ContentTemplate="{DataTemplate pacientes:NuevoPacientePage}" />
-    <ShellContent Route="AgendarCitaPage"  ContentTemplate="{DataTemplate pacientes:AgendarCitaPage}" />
-    <ShellContent Route="DetallePacientePage"  ContentTemplate="{DataTemplate pacientes:DetallePacientePage}" />
 </Shell>

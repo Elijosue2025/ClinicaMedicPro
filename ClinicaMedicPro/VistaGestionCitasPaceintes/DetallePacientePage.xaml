@@ -2,9 +2,72 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.VistaGestionCitasPaceintes.DetallePacientePage"
-             Title="Detalle del Paciente">
-    <Label Text="Historial del paciente" 
-           FontSize="20"
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand"/>
+             Title="Paciente"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+
+            <!-- Header paciente -->
+            <Border BackgroundColor="#3B82F6" Padding="25">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="120,*">
+                    <Border BackgroundColor="White" StrokeShape="Ellipse" WidthRequest="100" HeightRequest="100">
+                        <Label Text="{Binding Iniciales}" FontSize="40" FontAttributes="Bold"
+                               TextColor="#3B82F6" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Margin="20,0" Spacing="8">
+                        <Label Text="{Binding us_nombre}" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="{Binding us_correo}" FontSize="18" TextColor="#DBEAFE"/>
+                        <Label Text="{Binding pa_telefono}" FontSize="16" TextColor="#C0D7FF"/>
+                        <Label Text="{Binding pa_direccion}" FontSize="16" TextColor="#93C5FD"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Citas del paciente -->
+            <Border BackgroundColor="#EFF6FF" Padding="30">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+
+                <CollectionView x:Name="listaCitas">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                            <Label Text="Bienvenido a nuestro sistema de citas" 
+                                   FontSize="28" FontAttributes="Bold" TextColor="#1E40AF"
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Aquí aparecerán todas tus citas agendadas" 
+                                   FontSize="18" TextColor="#64748B" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#DBEAFE" Padding="22" Margin="0,12">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="20"/>
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Text="{Binding ci_fecha, StringFormat='Cita: {0:dddd dd MMMM yyyy}'}"
+                                           FontAttributes="Bold" FontSize="20" TextColor="#1E40AF"/>
+                                    <Label Text="{Binding ci_hora, StringFormat='Hora: {0}'}" 
+                                           FontSize="18" TextColor="#1E3A8A"/>
+                                    <Label Text="{Binding ci_motivo}" FontSize="17" TextColor="#1E293B"/>
+                                    <Label Text="{Binding medico_nombre, StringFormat='Dr(a). {0}'}" 
+                                           FontSize="18" FontAttributes="Bold" TextColor="#1D4ED8"/>
+                                    <Label Text="{Binding me_especialidad}" FontSize="16" TextColor="#1E40AF"/>
+                                    <Border BackgroundColor="#3B82F6" Padding="15,8" >
+                                        <Label Text="{Binding ci_estado}" TextColor="White" FontAttributes="Bold"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
