@@ -4,7 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vistas="clr-namespace:ClinicaMedicPro.Vistas"
+    xmlns:pacientes="clr-namespace:ClinicaMedicPro.VistaGestionCitasPaceintes"
     xmlns:gestion="clr-namespace:ClinicaMedicPro.VistasGestion">
+
 
     <!-- ====================== PÁGINAS PRINCIPALES ====================== -->
     <ShellContent Route="LoginPage"      ContentTemplate="{DataTemplate vistas:LoginPage}" />
@@ -23,4 +25,11 @@
     <ShellContent Route="DetallePacientePage" ContentTemplate="{DataTemplate vistas:DetallePacientePage}" />
     <ShellContent Route="RegistroPage"        ContentTemplate="{DataTemplate vistas:RegistroPage}" />
 
+    <!-- Gestión de Pacientes (Admin) -->
+    <ShellContent 
+    Route="PacientesAdminPage" 
+    ContentTemplate="{DataTemplate pacientes:PacientesAdminPage}" />
+    <ShellContent Route="NuevoPacientePage"  ContentTemplate="{DataTemplate pacientes:NuevoPacientePage}" />
+    <ShellContent Route="AgendarCitaPage"  ContentTemplate="{DataTemplate pacientes:AgendarCitaPage}" />
+    <ShellContent Route="DetallePacientePage"  ContentTemplate="{DataTemplate pacientes:DetallePacientePage}" />
 </Shell>

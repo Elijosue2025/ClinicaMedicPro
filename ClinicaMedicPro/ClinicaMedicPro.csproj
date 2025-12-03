@@ -68,6 +68,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="VistaGestionCitasPaceintes\AgendarCitaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="VistaGestionCitasPaceintes\CrearPacientePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="VistaGestionCitasPaceintes\DetallePacientePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="VistaGestionCitasPaceintes\NuevoPacientePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="VistaGestionCitasPaceintes\PacientesAdminPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="VistasGestion\CrearMedicoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

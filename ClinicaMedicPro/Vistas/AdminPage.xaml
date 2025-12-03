@@ -70,6 +70,16 @@
                         <Label Text="48" FontSize="36" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center"/>
                     </Grid>
                 </Border>
+                <!-- Paceintes -->
+                <Border Grid.Column="1" Grid.Row="0" BackgroundColor="#DBEAFE" Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMedicosTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Médicos Activos" FontSize="14" TextColor="#1E40AF"/>
+                        <Label Text="48" FontSize="36" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
 
                 <!-- Citas Hoy -->
                 <Border Grid.Column="0" Grid.Row="1" BackgroundColor="#DCFCE7" Padding="20" StrokeShape="RoundRectangle 20">
@@ -133,6 +143,24 @@
                         <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
                             <Label Text="Gestión de Médicos" FontSize="18" FontAttributes="Bold"/>
                             <Label Text="Especialidades y horarios" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+
+                <!-- Pacientes -->
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20" Margin="0,10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPacientesTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#FECACA" CornerRadius="16" Padding="14" HasShadow="False">
+                            <Label Text="Pacientes" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Gestionar Pacientes" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Crear, editar o eliminar cuentas" FontSize="14" TextColor="#64748B"/>
                         </VerticalStackLayout>
                         <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
                     </Grid>

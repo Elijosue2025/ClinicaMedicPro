@@ -1,4 +1,6 @@
-﻿namespace ClinicaMedicPro.Vistas;
+﻿using ClinicaMedicPro.VistaGestionCitasPaceintes;
+
+namespace ClinicaMedicPro.Vistas;
 
 public partial class AdminPage : ContentPage
 {
@@ -28,7 +30,9 @@ public partial class AdminPage : ContentPage
         => await DisplayAlert("Notificaciones", "Aquí irán las notificaciones", "OK");
 
     private async void OnPacientesTapped(object sender, EventArgs e)
-        => await DisplayAlert("Pacientes", "Lista de pacientes", "OK");
+    {
+        await Navigation.PushAsync(new PacientesAdminPage());
+    }
 
     private async void OnMedicosTapped(object sender, EventArgs e)
         => await Shell.Current.GoToAsync("//GestionMedicosPage");

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.VistaGestionCitasPaceintes.PacientesAdminPage"
+             Title="Gestión de Pacientes"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                    <Label Text="Gestión de Pacientes"
+                           FontSize="26"
+                           FontAttributes="Bold"/>
+                    <Label Text="Administra todos los pacientes"
+                           FontSize="15"
+                           TextColor="#64748B"/>
+                </VerticalStackLayout>
+                <Button Text="+ Nuevo Paciente"
+                        BackgroundColor="#10B981"
+                        TextColor="White"
+                        CornerRadius="14"
+                        HeightRequest="50"
+                        Grid.Column="1"
+                        Clicked="OnNuevoPacienteClicked"/>
+            </Grid>
+
+            <!-- Buscador -->
+            <SearchBar Placeholder="Buscar paciente..."
+                       TextChanged="OnBuscarChanged"
+                       BackgroundColor="White"
+                       HeightRequest="50"/>
+
+            <!-- Lista con ScrollView externo -->
+            <CollectionView ItemsSource="{Binding PacientesFiltrados}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="White"
+                               CornerRadius="16"
+                               Margin="0,8"
+                               HasShadow="True"
+                               Padding="18">
+                            <Grid ColumnDefinitions="70,*,Auto">
+                                <!-- Avatar -->
+                                <Border BackgroundColor="#8B5CF6"
+                                        WidthRequest="60"
+                                        HeightRequest="60"
+                                        StrokeShape="Ellipse">
+                                    <Label Text="{Binding Iniciales}"
+                                           TextColor="White"
+                                           FontAttributes="Bold"
+                                           FontSize="22"/>
+                                </Border>
+
+                                <!-- Datos del paciente -->
+                                <VerticalStackLayout Grid.Column="1" Margin="16,0" Spacing="6">
+                                    <Label Text="{Binding us_nombre}"
+                                           FontAttributes="Bold"
+                                           FontSize="20"/>
+                                    <Label Text="{Binding us_correo}"
+                                           FontSize="15"
+                                           TextColor="#64748B"/>
+                                    <HorizontalStackLayout Spacing="20">
+                                        <Label Text="{Binding pa_cedula}" FontSize="14"/>
+                                        <Label Text="{Binding pa_telefono}" FontSize="14"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding pa_direccion}"
+                                           FontSize="14"
+                                           TextColor="#94A3B8"/>
+                                </VerticalStackLayout>
+
+                                <!-- Botones -->
+                                <VerticalStackLayout Grid.Column="2" Spacing="10">
+                                    <Button Text="Cita" BackgroundColor="#3B82F6" TextColor="White"
+                                            CornerRadius="12" HeightRequest="44"
+                                            Clicked="OnAgendarCitaClicked"
+                                            CommandParameter="{Binding pk_paciente}"/>
+                                    <Button Text="Ver" BackgroundColor="#8B5CF6" TextColor="White"
+                                            CornerRadius="12" HeightRequest="44"
+                                            Clicked="OnVerDetalleClicked"
+                                            CommandParameter="{Binding pk_paciente}"/>
+                                    <Button Text="Editar" BackgroundColor="#F59E0B" TextColor="White"
+                                            CornerRadius="12" HeightRequest="44"/>
+                                    <Button Text="Borrar" BackgroundColor="#EF4444" TextColor="White"
+                                            CornerRadius="12" HeightRequest="44"
+                                            Clicked="OnEliminarClicked"
+                                            CommandParameter="{Binding pk_paciente}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
