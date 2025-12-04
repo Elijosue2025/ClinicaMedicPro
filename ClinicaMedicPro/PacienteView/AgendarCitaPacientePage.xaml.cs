@@ -48,12 +48,16 @@ public partial class AgendarCitaPacientePage : ContentPage
 
         var medico = medicos[PickerMedicos.SelectedIndex];
 
+        // LA ÚNICA FORMA QUE FUNCIONA EN TODOS LOS DISPOSITIVOS
+        string hora24 = $"{TimePickerHora.Time.Hours:D2}:{TimePickerHora.Time.Minutes:D2}";
+        // Ejemplo: 09:30, 14:15, 00:05 → siempre formato 24h correcto
+
         var data = new
         {
             fk_paciente = PacienteId,
             fk_medico = medico.pk_medico,
             ci_fecha = DatePickerFecha.Date.ToString("yyyy-MM-dd"),
-            ci_hora = TimePickerHora.Time.ToString(@"hh\:mm"),
+            ci_hora = hora24,
             ci_motivo = EditorMotivo.Text.Trim(),
             ci_estado = "agendada"
         };
@@ -68,12 +72,15 @@ public partial class AgendarCitaPacientePage : ContentPage
 
             if (response.IsSuccessStatusCode)
             {
-                await DisplayAlert("¡Éxito!", $"Cita agendada con Dr(a). {medico.us_nombre}", "OK");
+                await DisplayAlert("Éxito!",
+                    $"Cita agendada con Dr(a). {medico.us_nombre}\n" +
+                    $"el {DatePickerFecha.Date:dd/MM/yyyy} a las {hora24}", "OK");
                 await Navigation.PopAsync();
             }
             else
             {
-                await DisplayAlert("Error", "No se pudo agendar", "OK");
+                var error = await response.Content.ReadAsStringAsync();
+                await DisplayAlert("Error del servidor", error, "OK");
             }
         }
         catch (Exception ex)
