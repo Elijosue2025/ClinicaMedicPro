@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.PacienteView.AgendarCitaPacientePage"
+             Title="Agendar Cita"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25" Spacing="25">
+            <Label Text="Agendar Nueva Cita"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#1E293B"
+                   HorizontalOptions="Center"/>
+
+            <!-- Médico -->
+            <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Seleccionar Médico" FontAttributes="Bold" FontSize="18"/>
+                    <Picker x:Name="PickerMedicos"
+                            Title="Elige un médico"
+                            TitleColor="#64748B"
+                            TextColor="#1E293B"
+                            FontSize="16"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Fecha y Hora -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                    <DatePicker x:Name="DatePickerFecha"
+                                MinimumDate="{Binding Hoy}"
+                                Format="dd/MM/yyyy"/>
+                </Frame>
+                <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True" Grid.Column="1">
+                    <TimePicker x:Name="TimePickerHora"
+                                Format="HH:mm"/>
+                </Frame>
+            </Grid>
+
+            <!-- Motivo -->
+            <Frame BackgroundColor="White" CornerRadius="16" Padding="20" HasShadow="True">
+                <Editor x:Name="EditorMotivo"
+                        Placeholder="Ej: Dolor de cabeza, chequeo general..."
+                        HeightRequest="120"/>
+            </Frame>
+
+            <!-- BOTÓN CORREGIDO -->
+            <Button Text="AGENDAR CITA"
+                    BackgroundColor="#10B981"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    CornerRadius="16"
+                    HeightRequest="60"
+                    Clicked="OnAgendarCitaClicked" />
+            <!-- ← ESTE ES EL NOMBRE CORRECTO -->
+
+            <ActivityIndicator x:Name="ActivityCargando"
+                               Color="#10B981"
+                               IsRunning="False"
+                               IsVisible="False"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

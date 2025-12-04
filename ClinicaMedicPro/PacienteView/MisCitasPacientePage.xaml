@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClinicaMedicPro.PacienteView.MisCitasPacientePage"
+             Title="Mis Citas"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Título -->
+            <Label Text="Mis Citas"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#1E293B"
+                   HorizontalOptions="Center"/>
+
+            <!-- Lista de citas -->
+            <CollectionView x:Name="ListaCitas"
+                            ItemsSource="{Binding Citas}">
+
+                <!-- EmptyView CORRECTO (solo uno!) -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" 
+                                         VerticalOptions="Center" 
+                                         Spacing="20" 
+                                         Margin="40">
+                        <Image Source="calendar_empty.png" 
+                               HeightRequest="120" 
+                               Opacity="0.6"/>
+                        <Label Text="No tienes citas agendadas"
+                               FontSize="18"
+                               TextColor="#64748B"/>
+                        <Button Text="Agendar Nueva Cita"
+                                BackgroundColor="#10B981"
+                                TextColor="White"
+                                Clicked="OnIrAgendarCita"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Frame con CornerRadius en lugar de Border -->
+                        <Frame BackgroundColor="White"
+                              
+                               Margin="0,10"
+                               Padding="18"
+                               HasShadow="True">
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <!-- Información -->
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="{Binding ci_fecha, StringFormat='Fecha: {0:dddd dd MMMM yyyy}'}"
+                                           FontAttributes="Bold"
+                                           FontSize="18"
+                                           TextColor="#1E293B"/>
+                                    <Label Text="{Binding ci_hora, StringFormat='Hora: {0}'}" 
+                                           FontSize="16"/>
+                                    <Label Text="{Binding medico_nombre, StringFormat='Dr(a). {0}'}"
+                                           FontAttributes="Bold"
+                                           TextColor="#1D4ED8"/>
+                                    <Label Text="{Binding me_especialidad}" 
+                                           TextColor="#0EA5E9"/>
+                                    <Label Text="{Binding ci_motivo}" 
+                                           FontSize="15" 
+                                           TextColor="#475569"/>
+                                </VerticalStackLayout>
+
+                                <!-- Estado + Cancelar -->
+                                <VerticalStackLayout Grid.Column="1" 
+                                                     Spacing="10" 
+                                                     VerticalOptions="Center">
+
+                                    <!-- Estado con Frame (no Border) -->
+                                    <Frame BackgroundColor="{Binding EstadoColor}"
+                                           Padding="12,6"
+                                       
+                                           HasShadow="False">
+                                        <Label Text="{Binding ci_estado}"
+                                               TextColor="White"
+                                               FontAttributes="Bold"
+                                               FontSize="13"
+                                               HorizontalOptions="Center"/>
+                                    </Frame>
+
+                                    <!-- Botón Cancelar -->
+                                    <Button Text="Cancelar"
+                                            BackgroundColor="#EF4444"
+                                            TextColor="White"
+                                            HeightRequest="44"
+                                            FontSize="14"
+                                            IsVisible="{Binding PuedeCancelar}"
+                                            Clicked="OnCancelarCita"
+                                            CommandParameter="{Binding pk_cita}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

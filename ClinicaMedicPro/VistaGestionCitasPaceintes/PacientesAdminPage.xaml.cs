@@ -1,4 +1,4 @@
-using ClinicaMedicPro.Modelos;
+﻿using ClinicaMedicPro.Modelos;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 
@@ -58,7 +58,7 @@ public partial class PacientesAdminPage : ContentPage
             PacientesFiltrados.Add(p);
     }
 
-    // BOTONES DE ACCI�N
+    // BOTONES DE ACCIÓN
     private async void OnAgendarCitaClicked(object sender, EventArgs e)
     {
         if (sender is Button btn && btn.CommandParameter is int id)
@@ -67,9 +67,9 @@ public partial class PacientesAdminPage : ContentPage
             if (paciente != null)
             {
                 await Navigation.PushAsync(new AgendarCitaPage(
-                    paciente.pk_paciente,
-                    paciente.us_nombre,
-                    paciente.us_correo
+                    paciente.pk_paciente,           // ← id
+                    paciente.us_nombre ?? "Sin nombre",  // ← nombre
+                    paciente.us_correo ?? ""        // ← correo
                 ));
             }
         }
@@ -95,7 +95,7 @@ public partial class PacientesAdminPage : ContentPage
     {
         if (sender is Button btn && btn.CommandParameter is int id)
         {
-            bool confirmar = await DisplayAlert("Eliminar", "�Seguro que deseas eliminar este paciente?", "S�", "No");
+            bool confirmar = await DisplayAlert("Eliminar", "¿Seguro que deseas eliminar este paciente?", "Sí", "No");
             if (confirmar)
             {
                 try
@@ -104,7 +104,7 @@ public partial class PacientesAdminPage : ContentPage
                     var response = await client.DeleteAsync($"{ApiConfig.BaseUrl}?resource=paciente&id={id}");
                     if (response.IsSuccessStatusCode)
                     {
-                        await DisplayAlert("�xito", "Paciente eliminado", "OK");
+                        await DisplayAlert("Éxito", "Paciente eliminado", "OK");
                         CargarPacientes();
                     }
                 }

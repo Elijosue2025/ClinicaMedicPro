@@ -2,11 +2,123 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClinicaMedicPro.Vistas.PacientePage"
-             Title="PacientePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Mi Portal"
+             BackgroundColor="#F1F5F9">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="24" Padding="24">
+
+            <!-- HEADER -->
+            <Border Stroke="#E2E8F0" StrokeThickness="1" Padding="20" StrokeShape="RoundRectangle 28">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#F0F9FF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.1" Radius="20" Offset="0,10"/>
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Border BackgroundColor="#0EA5E9" WidthRequest="80" HeightRequest="80" StrokeShape="RoundRectangle 40">
+                        <Label Text="P" FontSize="36" TextColor="White" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="4" Margin="20,0">
+                        <Label Text="¡Hola de nuevo!" FontSize="16" TextColor="#64748B"/>
+                        <Label x:Name="LabelNombreUsuario" Text="Cargando..." FontSize="28" FontAttributes="Bold" TextColor="#1E293B"/>
+                        <Label Text="Paciente" FontSize="18" FontAttributes="Bold" TextColor="#0EA5E9"/>
+                    </VerticalStackLayout>
+                    <Image Source="bell.png" HeightRequest="32" Grid.Column="2"/>
+                </Grid>
+            </Border>
+
+            <!-- ESTADÍSTICAS -->
+            <Grid ColumnDefinitions="*,*" RowSpacing="16" ColumnSpacing="16">
+                <!-- Mis Citas -->
+                <Border Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#DBEAFE" Offset="0"/>
+                            <GradientStop Color="#93C5FD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMisCitasTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Mis Citas" FontSize="14" TextColor="#1E40AF"/>
+                        <Label x:Name="LabelTotalCitas" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Pendientes -->
+                <Border Padding="20" StrokeShape="RoundRectangle 20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FEF3C7" Offset="0"/>
+                            <GradientStop Color="#FDE68A" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <Label Text="Pendientes" FontSize="14" TextColor="#92400E"/>
+                        <Label x:Name="LabelCitasPendientes" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#D97706" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- MENÚ PRINCIPAL -->
+            <VerticalStackLayout Spacing="16" Margin="0,20,0,0">
+                <Label Text="Mis Opciones" FontSize="20" FontAttributes="Bold" TextColor="#1E293B"/>
+
+                <!-- Mis Citas -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMisCitasTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#BFDBFE" CornerRadius="16" Padding="14">
+                            <Label Text="Calendar" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Mis Citas" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Ver, modificar o cancelar" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+
+                <!-- Agendar Cita -->
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 20" Padding="20">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAgendarCitaTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame BackgroundColor="#BBF7D0" CornerRadius="16" Padding="14">
+                            <Label Text="Plus" FontSize="28"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+                            <Label Text="Agendar Nueva Cita" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="Solicitar turno con un médico" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text=">" FontSize="32" TextColor="#94A3B8"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Cerrar Sesión -->
+            <Button Text="Cerrar Sesión"
+                    BackgroundColor="#DC2626"
+                    TextColor="White"
+                    CornerRadius="16"
+                    HeightRequest="56"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    Clicked="OnCerrarSesionClicked"
+                    Margin="0,30,0,10"/>
+
+            <Label Text="© 2025 Clínica MedicPro • Portal del Paciente"
+                   FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
